@@ -3,9 +3,9 @@
 Solution for the "Follow the White Rabbit" Challenge promoved by Trust Pilot.
 
 ## Requirements
-    * gcc version 5.4.0
-    * openssl
-    * libssl-dev
+* gcc version 5.4.0
+* openssl
+* libssl-dev
 
 Check this link on how to install openssl: http://www.askyb.com/cpp/openssl-md5-hashing-example-in-cpp
 
@@ -14,6 +14,10 @@ Check this link on how to install openssl: http://www.askyb.com/cpp/openssl-md5-
 Use `make filter` to filter the words from dictionary.
 
 Then, run with `make run` - the program will start decoding.
+
+### Using Docker
+
+It is possible to run the program with docker. Use `make docker-setup` to build the image and then `make docker-run` to run.
 
 ## Algorithm
 
@@ -30,8 +34,9 @@ v) All other characters appear only 1 time.
 ### 1) Filtering
 
 From the wordlist that is provided, we can filter out words that can't be an anagram for the text `"poultry outwits ants"` (let's call it T). These are:
-    * Words that have characters not in T
-    * Words that repeat a character more times than it appears in T
+
+* Words that have characters not in T
+* Words that repeat a character more times than it appears in T
 
 ### 2) Encoding words
 
@@ -83,6 +88,7 @@ It'll try every possible combination for the keys and, whenever a potential cand
 ## Results
 
 Tested on a 2013 Laptop with the following specs:
+
     * 16.04.1-Ubuntu SMP 
     * Processor: Intel(R) Core(TM) i7-3537U CPU @ 2.00GHz
     * RAM: 8GB
