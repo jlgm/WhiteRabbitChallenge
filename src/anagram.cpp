@@ -26,12 +26,14 @@ void solution_found(string &sentence) {
     finished = true;
 }
 
-// check() checks if a given set of words can be arranged 
-// in order to form the solution
+// check() tests different permutations of strings that are grouped
+// Also verifies if their MD5 hash is the solution
 void check(int *ids, vector<long long> &combination) {
     string sentence = "";
     for(int i = 0; i < combination.size(); i++)
         if (ids[i] >= dic[combination[i]].size()) {
+            // id is bigger than the size of the vector
+            // we should go back 
             return;
         } else {
             sentence += i?" ":"";
@@ -42,14 +44,14 @@ void check(int *ids, vector<long long> &combination) {
         solution_found(sentence);
     }
     else for(int i = 0; i < combination.size(); i++) {
-        int tmp = ids[i];
         ids[i]++;
         check(ids, combination);
-        ids[i] = tmp;
+        ids[i]--;
     }
 }
 
 // test_sol() tests if a given candidate can be arranged into a solution
+// Uses check() described above
 void test_sol(long long &combination_hash, vector<long long> combination) {
     do {
         int ids[] = {0,0,0,0,0};
@@ -58,7 +60,7 @@ void test_sol(long long &combination_hash, vector<long long> combination) {
 }
 
 // solve() generates all possible k-combinations on the dictionary keys
-// and then checks if one of them is a solution
+// calls test_sol() when a combination is potential solution 
 void solve(int idx, int k, long long cumulative, vector<long long> &combination) {
     if (finished) return; // if solution was found, no need to go deeper
     
