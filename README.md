@@ -3,15 +3,16 @@
 Solution for the "Follow the White Rabbit" Challenge promoved by Trust Pilot.
 
 ## Requirements
- *gcc version 5.4.0
- *openssl
- *libssl-dev
+    * gcc version 5.4.0
+    * openssl
+    * libssl-dev
 
 Check this link on how to install openssl: http://www.askyb.com/cpp/openssl-md5-hashing-example-in-cpp
 
 ## Running
 
 Use `make filter` to filter the words from dictionary.
+
 Then, run with `make run` - the program will start decoding.
 
 ## Algorithm
@@ -66,14 +67,14 @@ E.g.:
 
 ### 4) Complement of word
 
-We also define the complement of a word W in T all the characters that are in T but are not in W. For example, for the word `"tryoutwits"` in the word `"poultryoutwitsants"`, the complement would be `"poulants"`. For every word that we calculate the key, we also calculate the code for its complement. We use this code as key in a dictionary that points to the code of the original word.
+We also define the complement of a word W in T as all the characters that are in T but are not in W. For example, for the word `"tryoutwits"` in the word `"poultryoutwitsants"`, the complement would be `"poulants"`. For every word that we calculate the key, we also calculate the code for its complement. We use this code as key in a dictionary that points to the code of the original word.
 E.g.: when calculating code for `"tryoutwits"` and finding value X, we say `H[encode(complement("tryoutwits"))] = X`.
 
-Doing so, we reduce the search space considerably. If we want to look for groups of 3 words that can be solution, we only need to generate combinations of two words (and in each, we look for its complement, to find the entire hash value). 
+Doing so, we reduce the search space considerably. If we want to look for groups of 3 words that can be solution, we only need to generate combinations of two words (and in each group, we look for its complement, to find the entire hash value). 
 
 For example, if the group we're trying is `"poultry", "outwits"`, we know only `"ants"` can be considered, because it's the complement of `"poultryoutwits"` in relation to `"poultryoutwitsants"`. So when we find for `H[encode("poultryoutwits")]` we'll find the code for `"ants"`.
 
-### 4) Finding the solution
+### 5) Finding the solution
 
 The program tries groups of two words, then groups of three, then groups of four, then groups of five. It'll stop only when it finds a solution for a given MD5 hash.
 
@@ -101,10 +102,11 @@ The program was able to crack the three MD5 Hashes:
 * It stores all the words in memory. Perhaps using a trie would be better
 * Too many shared resources between functions, which, although more efficient, is hard to debug
 * It might be a bit heavy on mathematics and code is not too easy to follow
-* Could've been more performatic if other data structures were used (e.g. char arrays instead of string class, arrays instead of vectors etc.)
 
 ## Potential improvements
 
-* When a potential solution is found, we could check asynchronously (using parallelization)
+* When a potential solution is found, we could check asynchronously (using parallelization) if it's a solution. Perhaps using some kind of job queue and workers
+* Using other data structures (such as char arrays instead of string class, arrays instead of vectors etc.) could improve performance
 * We can generate the combinations iteratively (which might improve performance)
 * User Interaction could be better
+* Unit tests
