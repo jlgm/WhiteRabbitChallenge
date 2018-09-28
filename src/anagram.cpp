@@ -68,6 +68,9 @@ void solve(int idx, int k, long long cumulative, vector<long long> &combination)
 
     if (k == 0) { //k-combination. Verify if current combination is a candidate
 
+        // cumulative is the product of every hash in this combination
+        // comp[cumulative] is the hash of the "missing" word
+
         long long comp_hash = comp[cumulative];
         cumulative *= (long long)comp_hash;
 
