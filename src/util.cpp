@@ -22,13 +22,13 @@ string to_md5(string word) {
     
     MD5((unsigned char*)&tmp_word, strlen(tmp_word), (unsigned char*)&digest);
 
-    char mdString[33];
+    char md_string[33];
 
     for(int i = 0; i < 16; i++){
-         sprintf(&mdString[i*2], "%02x", (unsigned int)digest[i]);
+         sprintf(&md_string[i*2], "%02x", (unsigned int)digest[i]);
     }
 
-    string ans = mdString;
+    string ans = md_string;
     return ans;
 }
 

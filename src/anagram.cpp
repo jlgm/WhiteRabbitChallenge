@@ -21,8 +21,8 @@ clock_t started, ended;
 void solution_found(string &sentence) {
     cout << "solution found: " << sentence << " (" << current_hash << ")" << endl;
     ended = clock();
-    double timeUsed = ((double) (ended - started)) / CLOCKS_PER_SEC;
-    cout << timeUsed << "s" << endl;
+    double time_used = ((double) (ended - started)) / CLOCKS_PER_SEC;
+    cout << time_used << "s" << endl;
     finished = true;
 }
 
