@@ -54,7 +54,7 @@ Now, we can encode a word as the multiplication of it's characters values. It's 
 
 *A set of words will be anagram of T if the multiplication of their codes results in the code of T.*
 
-For example, if we define our encode function as encode(), then encode("poultry")\*encode("outwits")\*encode("ants") = encode("poultryoutwitsants")
+For example, if we define our encode function as hash(), then `hash("poultry")\*hash("outwits")\*hash("ants") = hash("poultryoutwitsants")`
 
 ### 3) Grouping anagrams
 
@@ -72,16 +72,18 @@ E.g.:
 
 ### 4) Complement of word
 
-We also define the complement of a word W in T as all the characters that are in T but are not in W. For example, for the word `"tryoutwits"` in the word `"poultryoutwitsants"`, the complement would be `"poulants"`. For every word that we calculate the key, we also calculate the code for its complement. We use this code as key in a dictionary that points to the code of the original word.
-E.g.: when calculating code for `"tryoutwits"` and finding value X, we say `H[encode(complement("tryoutwits"))] = X`.
+We also define the complement of a word W in T as all the characters that are in T but are not in W. For example, for the word `"tryoutwits"` in the word `"poultryoutwitsants"`, the complement would be `"poulants"`. For every word that we calculate the code, we also calculate the code for its complement. We use this code as key in a dictionary that points to the code of the original word.
+E.g.: when calculating code for `"tryoutwits"` and finding value X, we say `comp[hash("poulants")] = X`.
 
-Doing so, we reduce the search space considerably. If we want to look for groups of 3 words that can be solution, we only need to generate combinations of two words (and in each group, we look for its complement, to find the entire hash value). 
+Now, to calculate the code for the complement, we just need to divide the hash value of the whole word (in this case, `"poultryoutwitsants"`) by the hash of the current word (in this case, `"tryoutwits"`). On the example above, `hash("poulants") = hash("poultryoutwitsants") / hash("tryoutwits"`)
 
-For example, if the group we're trying is `"poultry", "outwits"`, we know only `"ants"` can be considered, because it's the complement of `"poultryoutwits"` in relation to `"poultryoutwitsants"`. So when we find for `H[encode("poultryoutwits")]` we'll find the code for `"ants"`.
+By doing this, we reduce the search space considerably. If we want to look for groups of 3 words that can be solution, we only need to generate combinations of two words (and in each group, we look for its complement, to find the code for the missing word).
+
+To keep using the same example, if the group we're trying is `"poultry", "outwits"`, we know only an anagram of `"ants"` can be considered, because it's the complement of `"poultryoutwits"` in relation to `"poultryoutwitsants"`. So when we find for `comp[hash("poultryoutwits")]` we'll find the code for `"ants"`.
 
 ### 5) Finding the solution
 
-The program tries groups of two words, then groups of three, then groups of four, then groups of five. It'll stop only when it finds a solution for a given MD5 hash.
+The program tries groups of two words, then groups of three, then groups of four, then groups of five. It'll stop only when it finds a solution or if the answer has a group of more than five words.
 
 It'll try every possible combination for the keys and, whenever a potential candidate appears (when the code for the group is the same as the group of the original word that we're looking for the anagram), it will try every permutation of words this current set has. 
 

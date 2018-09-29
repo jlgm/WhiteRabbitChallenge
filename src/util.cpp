@@ -32,19 +32,3 @@ string to_md5(string word) {
     return ans;
 }
 
-// complement() calculates the "complement" of s in a word
-// assumes s can be written using only characters in word
-//
-// e.g.: complement of "bcf" in "abcdef" is "aed"
-string complement(string s, string word) {
-    int cnt[27]; memset(cnt, 0, sizeof(cnt));
-    for(int i = 0; i < word.size(); i++)
-        cnt[word[i]-'a']++;
-    for(int i = 0; i < s.size(); i++)
-        cnt[s[i]-'a']--;
-    string ans = "";
-    for(int i = 0; i < 26; i++)
-        for(int j = 0; j < cnt[i]; j++)
-            ans.push_back(i+'a');
-    return ans;
-}

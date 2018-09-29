@@ -69,12 +69,10 @@ void solve(int idx, int k, long long cumulative, vector<long long> &combination)
     if (k == 0) { //k-combination. Verify if current combination is a candidate
 
         // cumulative is the product of every hash in this combination
-        // comp[cumulative] is the hash of the "missing" word
+        // comp[cumulative] is the hash for the "missing" word
 
         long long comp_hash = comp[cumulative];
         cumulative *= (long long)comp_hash;
-
-        if (comp.find(comp_hash) == comp.end()) return;
 
         if (cumulative == WORD_HASH) {
             combination.push_back(comp_hash);
@@ -103,7 +101,10 @@ int main(int argc, char** argv) {
             long long tmp = generate_hash(s);
             if (dic.find(tmp) == dic.end()) {
                 dic[tmp] = vector<string>{s};
-                comp[generate_hash(complement(s, word))] = tmp;
+                
+                long long complement = WORD_HASH/tmp;
+                comp[complement] = tmp;
+
                 keys.push_back(tmp);
             }
             else {
